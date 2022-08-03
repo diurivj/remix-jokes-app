@@ -20,8 +20,8 @@ export function Navbar() {
           <div>
             {user ? (
               <div className="flex items-center space-x-4">
-                <button
-                  type="button"
+                <Link
+                  to="/add"
                   className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-black shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                 >
                   <PlusSmIcon
@@ -29,7 +29,7 @@ export function Navbar() {
                     aria-hidden="true"
                   />
                   <span>Agregar chiste</span>
-                </button>
+                </Link>
                 <Form action="/logout" method="post">
                   <button className="underline">Cerrar sesión</button>
                 </Form>

@@ -1,6 +1,12 @@
 import type { ActionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Form, Link, useActionData, useTransition } from '@remix-run/react';
+import {
+  Form,
+  Link,
+  useActionData,
+  useSearchParams,
+  useTransition
+} from '@remix-run/react';
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import invariant from 'tiny-invariant';
 import { verifyLogin } from '~/models/user.server';
@@ -11,9 +17,11 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const username = formData.get('username');
   const password = formData.get('password');
+  const redirectTo = formData.get('redirectTo');
 
   invariant(typeof username === 'string', 'username must be a string');
   invariant(typeof password === 'string', 'password must be a string');
+  invariant(typeof redirectTo === 'string', 'redirectTo must be a string');
 
   const user = await verifyLogin(username, password);
 
@@ -24,13 +32,16 @@ export async function action({ request }: ActionArgs) {
   return createUserSession({
     request,
     userId: user.id,
-    redirectTo: '/'
+    redirectTo
   });
 }
 
 export default function LoginPage() {
   const actionData = useActionData<typeof action>();
   const transition = useTransition();
+
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo') || '/';
 
   return (
     <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -49,6 +60,12 @@ export default function LoginPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <Form className="space-y-6" method="post">
+            <input
+              type="hidden"
+              name="redirectTo"
+              readOnly
+              value={redirectTo}
+            />
             <div>
               <label
                 htmlFor="username"
