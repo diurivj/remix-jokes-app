@@ -12,6 +12,7 @@ export function List({ jokes }: ListProps) {
       {jokes.map(joke => (
         <li key={joke.id}>
           <Link
+            prefetch="intent"
             to={`/jokes/${joke.id}`}
             className="py-4 flex items-center justify-between"
           >
