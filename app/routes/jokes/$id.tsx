@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, Link, useLocation, useNavigate } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
@@ -13,6 +13,12 @@ import { ArrowLeftIcon, HeartIcon, TrashIcon } from '@heroicons/react/outline';
 import { useOptionalUser } from '~/utils/auth';
 import { getUserId } from '~/session.server';
 import { classNames } from '~/utils/tailwind';
+
+export const meta: MetaFunction = ({ data }) => {
+  return {
+    title: `Jokes | ${data.joke.title}`
+  };
+};
 
 export async function action({ request, params }: ActionArgs) {
   const [userId, formData] = await Promise.all([

@@ -1,9 +1,15 @@
-import type { ActionArgs } from '@remix-run/node';
+import type { ActionArgs, MetaFunction } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import { createJoke } from '~/models/jokes.server';
 import { getUserId } from '~/session.server';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Jokes | Agregar chiste'
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   const [userId, formData] = await Promise.all([

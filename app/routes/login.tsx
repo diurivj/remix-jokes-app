@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node';
+import type { ActionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import {
   Form,
@@ -12,6 +12,12 @@ import invariant from 'tiny-invariant';
 import { verifyLogin } from '~/models/user.server';
 import { classNames } from '~/utils/tailwind';
 import { createUserSession } from '~/session.server';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Jokes | Iniciar sesión'
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
@@ -41,7 +47,7 @@ export default function LoginPage() {
   const transition = useTransition();
 
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo') || '/';
+  const redirectTo = searchParams.get('redirectTo') || '/jokes';
 
   return (
     <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">

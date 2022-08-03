@@ -1,10 +1,16 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { List } from '~/components/List';
 import { Navbar } from '~/components/Navbar';
 import { getJokes } from '~/models/jokes.server';
 import { useOptionalUser } from '~/utils/auth';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Jokes | Todos los chistes'
+  };
+};
 
 export async function loader(_args: LoaderArgs) {
   const jokes = await getJokes();

@@ -1,4 +1,4 @@
-import type { ActionArgs } from '@remix-run/node';
+import type { ActionArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, Link, useActionData, useTransition } from '@remix-run/react';
 import { createUser, getUserByUsername } from '~/models/user.server';
@@ -6,6 +6,12 @@ import invariant from 'tiny-invariant';
 import { createUserSession } from '~/session.server';
 import { classNames } from '~/utils/tailwind';
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Jokes | Crear cuenta'
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
